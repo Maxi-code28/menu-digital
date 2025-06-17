@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import axios from 'axios';
-import './styles.css';
+// Accede a React, ReactDOM y Axios desde las variables globales
+const { useState, useEffect } = React;
+const ReactDOM = window.ReactDOM;
+const axios = window.axios;
 
 const Menu = () => {
   const [items, setItems] = useState([]);
@@ -16,25 +16,26 @@ const Menu = () => {
   const filteredItems = category === 'all' ? items : items.filter(item => item.category === category);
 
   return (
-    <div className="menu">
-      <h1>Menú del Restaurante</h1>
-      <div className="filters">
-        <button onClick={() => setCategory('all')}>Todos</button>
-        <button onClick={() => setCategory('entradas')}>Entradas</button>
-        <button onClick={() => setCategory('principales')}>Platos Principales</button>
-        <button onClick={() => setCategory('postres')}>Postres</button>
-      </div>
-      <div className="menu-items">
-        {filteredItems.map(item => (
-          <div key={item.id} className="menu-item">
-            <h3>{item.name}</h3>
-            <p>{item.description}</p>
-            <p>${item.price}</p>
-          </div>
-        ))}
-      </div>
-    </div>
+    React.createElement('div', { className: 'menu' },
+      React.createElement('h1', null, 'Menú del Restaurante'),
+      React.createElement('div', { className: 'filters' },
+        React.createElement('button', { onClick: () => setCategory('all') }, 'Todos'),
+        React.createElement('button', { onClick: () => setCategory('entradas') }, 'Entradas'),
+        React.createElement('button', { onClick: () => setCategory('principales') }, 'Platos Principales'),
+        React.createElement('button', { onClick: () => setCategory('postres') }, 'Postres')
+      ),
+      React.createElement('div', { className: 'menu-items' },
+        filteredItems.map(item =>
+          React.createElement('div', { key: item.id, className: 'menu-item' },
+            React.createElement('h3', null, item.name),
+            React.createElement('p', null, item.description),
+            React.createElement('p', null, '$' + item.price)
+          )
+        )
+      )
+    )
   );
 };
 
-ReactDOM.render(<Menu />, document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(React.createElement(Menu));
